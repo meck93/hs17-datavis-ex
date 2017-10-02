@@ -1,2 +1,2 @@
-# hs17-datavis-ex
-Exercise solutions for the HS17 Data Virtualization class
+# UZH HS17: Data Visualization
+This repository contains the exercise solutions for the HS17 Data Visualization class. 
