@@ -53,9 +53,7 @@ class Figure1:
         data= {'Quartier' : quartier_names, 
                'Male' : maleBirths['Births'].values.tolist(), 
                'Female' : femaleBirths['Births'].values.tolist()}
-        
-        print(data)
-        
+       
         dataSource = ColumnDataSource(data=data)
               
         #Creating the vertical stacked bar chart 

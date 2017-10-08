@@ -7,6 +7,7 @@
 
 from Figure1 import Figure1
 from Figure2 import Figure2
+from Figure3 import Figure3
 
 import pandas as pd
 
@@ -27,9 +28,14 @@ data = data.rename(columns={"StichtagDatJahr":"Jahr","SexKurz":"Sex", "StatZoneL
 #Plot 1: Births in 2015 per gender
 fig1 = Figure1(data)
 
-show(fig1.plot1)
+#show(fig1.plot1)
 
 #Plot 2: 
 fig2 = Figure2(data)
 
 #show(fig2.plot2)
+
+#Plot 3
+fig3 = Figure3(data)
+
+show(fig3.pie_chart)
