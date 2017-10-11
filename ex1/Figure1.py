@@ -7,11 +7,11 @@
 
 import pandas as pd
 
-from bokeh.core.properties import value
-from bokeh.plotting import figure
-from bokeh.models import ColumnDataSource, HoverTool
+from bkcharts import Bar
+from bokeh.models import HoverTool
 
 class Figure1:
+    """ This class creates the first figure (aggregated briths per city part) of exercise 1 """
     
     def __init__(self, data):
         self.data = data
@@ -39,43 +39,34 @@ class Figure1:
         
         #Y-Axis Values: Nr of Births (male & female) per city part in 2015
         births = pd.DataFrame(births_2015, copy=True)
-        births = births.drop("StadtZone", axis=1)
-        births = births.drop("Jahr", axis=1)
+        births = births.drop("Jahr", axis=1)        
+        births = births.groupby(['Sex', 'Quartier'])['Births'].sum().reset_index()        
         
-        maleBirths = pd.DataFrame(births.loc[births_2015['Sex'] == 'M'], copy=True)
-        maleBirths = maleBirths.drop("Sex", axis=1)
-        maleBirths = maleBirths.groupby("Quartier").sum()
+        colors = ["#e84d60", "#718dbf"]
         
-        femaleBirths = pd.DataFrame(births.loc[births_2015['Sex'] == 'W'], copy=True)
-        femaleBirths = femaleBirths.drop("Sex", axis=1)
-        femaleBirths = femaleBirths.groupby("Quartier").sum()
-        
-        data= {'Quartier' : quartier_names, 
-               'Male' : maleBirths['Births'].values.tolist(), 
-               'Female' : femaleBirths['Births'].values.tolist()}
-       
-        dataSource = ColumnDataSource(data=data)
-              
-        #Creating the vertical stacked bar chart 
-        self.plot1 = figure(x_range=quartier_names, title="Births in 2015 per Quartier in the city of Zurich",
-                       plot_width=1000, plot_height=600,
-                       tools="pan,reset,save,wheel_zoom", toolbar_location="right")
-        
-        genders = ['Male', 'Female']
-        colors = ["#718dbf", "#e84d60"]
-                  
-        self.plot1.vbar_stack(genders, x='Quartier', width=0.75, color=colors, source=dataSource, 
-                         legend=[value(x) for x in genders], line_width=0.1)
+        #Creating the vertical stacked bar chart            
+        self.plot1 = Bar(births, label='Quartier', stack='Sex', values='Births', 
+                         title='Aggregated Number of Births per City Part (Quartier) in 2015',
+                         color=colors, )
                  
         # Designing the plot (legend, axis alignment & spacing)
-        self.plot1.y_range.start = 0
+        self.plot1.width = 1800
+        self.plot1.height = 500
+        self.plot1.legend.location = "top_right"
+        self.plot1.legend.orientation = "horizontal"
+        
+        #X-Axis design 
         self.plot1.xaxis.major_label_orientation = 1
         self.plot1.x_range.range_padding = 0.05
         self.plot1.xgrid.grid_line_color = None
+        self.plot1.xaxis.axis_label = 'City Parts in Zurich'
+        
+        #Y-Axis design 
+        self.plot1.y_range.start = 0
+        self.plot1.yaxis[0].ticker.max_interval = 50
+        self.plot1.yaxis[0].ticker.num_minor_ticks = 0
+        self.plot1.yaxis.axis_label = 'Number of Births'
         
         #Creating the hover tooltip
-        hover = HoverTool(tooltips=[("Gender", "@"), ("Births", "@Male")])        
+        hover = HoverTool(tooltips=[("Quartier", "@Quartier"), ("Sex", "@Sex"), ("Births", "@height")])        
         self.plot1.tools.append(hover)
-        
-        self.plot1.legend.location = "top_right"
-        self.plot1.legend.orientation = "horizontal"

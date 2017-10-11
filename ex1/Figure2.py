@@ -52,27 +52,27 @@ class Figure2:
         maleBirths = maleBirths.groupby("Jahr").sum()
 
         # Plotting all three dataframes as seperate lines
-        plot2 = figure(title="Births per year and gender in Zurich",
-                       plot_width=1000, plot_height=600,
+        plot2 = figure(title="Number of Births between 1993 and 2015",
+                       plot_width=900, plot_height=500,
                        tools="pan,reset,save,wheel_zoom", toolbar_location="right")
                
         #Plotting the male births
         plot2.line(x=years, y=maleBirths['Births'].values.tolist(),
                    legend='Male', color='red', line_width=2)
         plot2.circle(x=years, y=maleBirths['Births'].values.tolist(), 
-                     line_width=1, fill_color='white', line_color='black')
+                     line_width=1.5, fill_color='white', line_color='black')
         
         #Plotting the female births
         plot2.line(x=years, y=femaleBirths['Births'].values.tolist(),
                    legend='Female', color='blue', line_width=2)        
         plot2.circle(x=years, y=femaleBirths['Births'].values.tolist(), 
-                     line_width=1, fill_color='white', line_color='black')
+                     line_width=1.5, fill_color='white', line_color='black')
         
         #Plotting the total births
         plot2.line(x=years, y=totalBirths['Births'].values.tolist(),
                    legend='Total', color='black', line_width=2)
         plot2.circle(x=years, y=totalBirths['Births'].values.tolist(), 
-                     line_width=1, fill_color='white', line_color='black')
+                     line_width=1.5, fill_color='white', line_color='black')
                     
         # Designing the plot (legend, axis alignment & spacing)
         plot2.y_range.start = 0
@@ -85,12 +85,15 @@ class Figure2:
         # X-Axis design
         plot2.xaxis[0].ticker.max_interval = 1
         plot2.xaxis[0].ticker.num_minor_ticks = 0
+        plot2.xgrid.grid_line_color = None
+        plot2.xaxis.axis_label = 'Years'
         
-        #Y-Axis design 
+        # Y-Axis design 
         plot2.yaxis[0].ticker.max_interval = 500
         plot2.yaxis[0].ticker.num_minor_ticks = 5
+        plot2.yaxis.axis_label = 'Number of Births'
                 
-        plot2.xgrid.grid_line_color = None
+        # Legend 
         plot2.legend.location = "bottom_right"
         plot2.legend.orientation = "horizontal"
         

@@ -8,34 +8,30 @@
 from Figure1 import Figure1
 from Figure2 import Figure2
 from Figure3 import Figure3
+from Figure4 import Figure4
 
 import pandas as pd
-
-from bokeh.core.properties import value
 from bokeh.io import output_file, show
-from bokeh.plotting import figure
-from bokeh.models import ColumnDataSource
-from bokeh.io import curdoc
 from bokeh.layouts import row, column
 
 #New visualization page 
-output_file("output.html", title="Data Visualization Exercise 1")
+output_file(filename="output.html", title="HS17: DataVis Ex1")
 
 #Read the data from the CSV file
 data = pd.read_csv('births.csv', delimiter=',')
 data = data.rename(columns={"StichtagDatJahr":"Jahr","SexKurz":"Sex", "StatZoneLang":"StadtZone", "QuarLang":"Quartier","AnzGebuWir":"Births"})
    
-#Plot 1: Births in 2015 per gender
+#Plot 1
 fig1 = Figure1(data)
-
-#show(fig1.plot1)
 
 #Plot 2: 
 fig2 = Figure2(data)
 
-#show(fig2.plot2)
-
 #Plot 3
 fig3 = Figure3(data)
 
-show(fig3.pie_chart)
+#Plot 4
+fig4 = Figure4(data)
+
+#Displaying all visualizations
+show(column(fig1.plot1, row(fig2.plot2, fig3.pie_chart, fig4.plot)))
