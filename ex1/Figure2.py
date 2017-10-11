@@ -53,7 +53,7 @@ class Figure2:
 
         # Plotting all three dataframes as seperate lines
         plot2 = figure(title="Number of Births between 1993 and 2015",
-                       plot_width=900, plot_height=500,
+                       plot_width=800, plot_height=475,
                        tools="pan,reset,save,wheel_zoom", toolbar_location="right")
                
         #Plotting the male births

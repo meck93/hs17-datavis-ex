@@ -58,6 +58,6 @@ class Figure3:
         # Designing the Donut
         pie_chart.title = Title(text="Ratio Male vs. Female Births in 2015")        
         pie_chart.width = 450
-        pie_chart.height = 500
+        pie_chart.height = 475
                 
         return pie_chart

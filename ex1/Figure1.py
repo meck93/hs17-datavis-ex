@@ -51,12 +51,12 @@ class Figure1:
                  
         # Designing the plot (legend, axis alignment & spacing)
         self.plot1.width = 1800
-        self.plot1.height = 500
+        self.plot1.height = 450
         self.plot1.legend.location = "top_right"
         self.plot1.legend.orientation = "horizontal"
         
         #X-Axis design 
-        self.plot1.xaxis.major_label_orientation = 1
+        self.plot1.xaxis.major_label_orientation = 0.3
         self.plot1.x_range.range_padding = 0.05
         self.plot1.xgrid.grid_line_color = None
         self.plot1.xaxis.axis_label = 'City Parts in Zurich'
