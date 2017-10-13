@@ -53,7 +53,7 @@ class Figure3:
         data = pd.Series([maleBirths['Births'], femaleBirths['Births']], index=[male_label, female_label])
         
         # Plotting the Pie Chart
-        pie_chart = Donut(data, color=['blue', 'red'], hover_text='Births')
+        pie_chart = Donut(data, color=["#e84d60", "#718dbf"], hover_text='Births')
         
         # Designing the Donut
         pie_chart.title = Title(text="Ratio Male vs. Female Births in 2015")        
