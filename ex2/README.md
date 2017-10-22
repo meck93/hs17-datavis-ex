@@ -1,12 +1,13 @@
 ### READ ME
 
 **How to display the dashboard?**
-* Prerequisites: Python 2.7.* and Tornado 4.3 (otherwise the callbacks of the sliders will not work)
+* Prerequisites: Python 3.6.* and Tornado 4.4.2
+* (With the most recent version Tornado V4.5 - the Sliders will not work)
 
 To just display the dashboard (no interactivity): Open the ex2_main.html file
 
 **Interactive Version:**
-1. Ensure you have Python 2.7.* and Tornado 4.3 installed
+1. Ensure you have Python 3.6.* and Tornado 4.4.2 installed
 2. Open a command prompt 
 3. Navigate to the folder containing the files (ex2_main.py & image.jpg)
 4. Run 'bokeh serve --show ex2_main.py'
