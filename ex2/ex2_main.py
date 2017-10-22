@@ -49,7 +49,7 @@ side_width = int(im1_width / 2.5)
 
 # List containing all the plots
 figures = []
-gen_tools = "reset,wheel_zoom,pan,save"
+gen_tools = "reset,wheel_zoom,pan"
 
 # =============================================================================
 # Reading the main image from the provided file 'image.jpg'
