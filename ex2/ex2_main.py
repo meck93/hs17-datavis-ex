@@ -12,7 +12,7 @@ from scipy import ndimage
 
 from PIL import Image
 
-from bokeh.plotting import figure, show, output_file, curdoc
+from bokeh.plotting import figure, output_file, curdoc
 from bokeh.layouts import row, column, widgetbox
 from bokeh.models import Div, Tabs, Panel, Slider
 
@@ -188,6 +188,9 @@ img5 = Tabs(tabs=[tab1,tab2])
 # Image 6 - Salt & Pepper Filter
 # =============================================================================
 def createSaltPepperNoise(img, density=0.1, ratio=0.5):
+    """
+    Creates random noise (black & white pixels) of a certain density and ratio on the input image
+    """
     out = img.copy()
     
     # Creating the number of salt pixels (white pixels)
@@ -206,6 +209,15 @@ def createSaltPepperNoise(img, density=0.1, ratio=0.5):
     
     return out       
 
+def updateSaltPepper(attrname, old, new):
+    """
+    Recomputes the salt&pepper filter on the input matrix triggered by the move of the slider
+    """ 
+    # Compute the new values with the input from the slider
+    salt_data = createSaltPepperNoise(view, density=salt_slider.value)
+    # Update the datasource of the gauss_img - key: image - value: salt_data
+    salt_img.data_source.data = {'image':[salt_data]}
+
 salt_data = createSaltPepperNoise(view, density=0.1)
     
 # Green Color Channel
@@ -215,25 +227,61 @@ salt = figure(title='Salt & Pepper Noise', tools = gen_tools,
 
 salt_img = salt.image_rgba(image=[salt_data], x=0, y=0, dw=side_width, dh=side_height)
 
-salt_slider = Slider(start=0, end=0.5, value=0.1, step=0.1, 
-                     width=side_width-40, 
+salt_slider = Slider(start=0, end=0.5, value=0.1, step=0.1, width=side_width-40,
                      title='Salt and Pepper Filter - Adjust the Density')
 
-def updateSaltPepper(attrname, old, new):
-    # Compute the new values with the input from the slider
-    salt_data = createSaltPepperNoise(view, density=salt_slider.value)
-    # Update the datasource of the gauss_img - key: image - value: salt_data
-    salt_img.data_source.data = {'image':[salt_data]}
-
 salt_slider.on_change('value', updateSaltPepper)
+
+salt_slide = widgetbox(children=[salt_slider], sizing_mode='scale_both')
 
 figures.append(salt)
 
 # =============================================================================
 # Image 7 - Gaussian Smoothing Filter 
 # =============================================================================
-gauss_data = ndimage.gaussian_filter(view.copy(), 1)
 
+def gaussian_filter(input_img, sigma):
+    """ 
+    Computes the gaussian filter on each color channel of the input image
+    
+    Input:
+        orginal image
+        sigma value for the gaussian filter
+    
+    Returns:
+        Matrix with gaussian filter applied on each color channel
+    """
+    
+    org_img = input_img.copy()
+    
+    # Empty matrix size (ydim - 768, xdim - 1024)
+    # Each entry in the matrix contains four values: [0 0 0 0]
+    combined_gaussian = np.zeros((ydim, xdim, 4), 'uint8')
+    
+    # Apply the gaussian filter function to each color channel
+    gauss_red = ndimage.gaussian_filter(org_img[:,:,0], sigma)
+    gauss_green = ndimage.gaussian_filter(org_img[:,:,1], sigma)
+    gauss_blue = ndimage.gaussian_filter(org_img[:,:,2], sigma)
+    
+    # Create the combined result matrix
+    combined_gaussian[:,:,0] = gauss_red[:]
+    combined_gaussian[:,:,1] = gauss_green[:]
+    combined_gaussian[:,:,2] = gauss_blue[:]
+    combined_gaussian[:,:,3] = 255
+
+    return combined_gaussian
+
+def updateSigma(attrname, old, new):
+    """
+    Recomputes the gaussian filter on the input matrix triggered by the move of the slider
+    """ 
+    # Compute the new values with the input from the slider
+    gauss_data = gaussian_filter(view, sigma_slider.value)
+    # Update the datasource of the gauss_img - key: image - value: gauss_data
+    gauss_img.data_source.data = {'image':[gauss_data]}
+    
+gauss_data = gaussian_filter(view, 2)
+    
 # Green Color Channel
 gauss = figure(title='Gaussian Filter', tools = gen_tools,
                plot_width=side_width, plot_height=side_height, 
@@ -241,22 +289,17 @@ gauss = figure(title='Gaussian Filter', tools = gen_tools,
 
 gauss_img = gauss.image_rgba(image=[gauss_data], x=0, y=0, dw=side_width, dh=side_height)
 
-sigma_slider = Slider(start=0, end=5, value=2, step=1, 
-                      width=side_width-40, 
+sigma_slider = Slider(start=0, end=5, value=2, step=1, width=side_width-40,
                       title='Gaussian Filter - Sigma Level')
-
-def updateSigma(attrname, old, new):
-    # Compute the new values with the input from the slider
-    gauss_data = ndimage.gaussian_filter(view.copy(), sigma_slider.value)
-    # Update the datasource of the gauss_img - key: image - value: gauss_data
-    gauss_img.data_source.data = {'image':[gauss_data]}
-
+    
 sigma_slider.on_change('value', updateSigma)
+
+sigma_slide = widgetbox(children=[sigma_slider], sizing_mode='scale_both')
 
 figures.append(gauss)
 
 # =============================================================================
-# Adjusting the axis, format and styles of all figures
+# Removing the x- and y-axis, the toolbar and the grid lines of all figures
 # =============================================================================
 for fig in figures:
     fig.toolbar_location = "right"
@@ -265,10 +308,10 @@ for fig in figures:
     fig.xgrid.grid_line_color = None
     fig.ygrid.grid_line_color = None
 
-# Open the output file in a browser
-#show(column(main_img, row(red_img, blue_img, green_img)))
+# Add each widget to the output layout
+# Widgets are structured using columns and rows
 curdoc().add_root(column(page_title, page_description,
                          row(column(main_img, row(red_img, green_img, blue_img)),
                              column(row(img5), 
-                                     column(salt, widgetbox(salt_slider)), 
-                                     column(gauss, widgetbox(sigma_slider))))))
+                                     column(salt, salt_slide), 
+                                     column(gauss, sigma_slide)))))
