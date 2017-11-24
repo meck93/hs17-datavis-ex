@@ -136,7 +136,7 @@ print("Dissimilarity:\t", dis_setosa_virginica, "\nSimilarity:\t", sim_setosa_vi
 dis_versicolor_virginica = dissimilarity(versicolor_means, virginica_means)
 sim_versicolor_virginica = similarity(versicolor_means, virginica_means)
 
-print("\n3. Setosa vs. Versicolor")
+print("\n3. Versicolor vs. Virginica")
 print("Dissimilarity:\t", dis_versicolor_virginica, "\nSimilarity:\t", sim_versicolor_virginica)
 
 """
@@ -151,7 +151,7 @@ Similarity:      0.2378
 Dissimilarity:   4.7526
 Similarity:      0.1738
 
-3. Setosa vs. Versicolor
+3. Versicolor vs. Virginica
 Dissimilarity:   1.6205
 Similarity:      0.3816
 """
