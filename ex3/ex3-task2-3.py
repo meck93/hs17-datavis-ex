@@ -161,6 +161,8 @@ def getAccuracy(test_set, predictions):
 def visualize(test_set, wrong_guesses, correct_instead):   
     from bokeh.plotting import figure
     from bokeh.io import output_file, show
+
+    output_file("ex3-task2 & task3.html")
             
     # 3 sepearte dataframes for each type - only the correct values
     setosa = []
@@ -266,6 +268,7 @@ for i in range(len(test_set)):
     guess = getPrediction(neighbors, weights)
     predictions.append(guess)
 
+# Compute the accuracy of the recogintion
 result = getAccuracy(test_set, predictions)
 
 visualize(test_set, result[1], result[2])

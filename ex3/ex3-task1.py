@@ -14,6 +14,8 @@ def visualize_plot1():
     import pandas as pd
     from bokeh.plotting import figure
     from bokeh.io import output_file, show
+
+    output_file("ex3_task1.html")
     
     # Read the raw data from the 'iris.data' file
     data = readDataSet('iris.data', ',', 0.7)
@@ -66,19 +68,6 @@ def visualize_plot1():
         
     #Y-Axis design 
     fig1.yaxis.axis_label = 'Sepal Width'
-    
-    # Question 1: What type of variables has the Iris dataset? Refer the type of each variable.
-    # sepal_length: continuous variable (ordinal, numerical value)
-    # sepal_width: continuous variable (ordinal, numerical value)
-    # petal_length: continuous variable (ordinal, numerical value)
-    # petal_width: continuous variable (ordinal, numerical value)
-    # species: categorical variable (nominal, no intrinsic order)
-    
-    # Question 2: How many features are included in the Iris data set? 
-    # Definition of a feature? 
-    # If each attribute is a feature then the dataset contains four features
-    # If the plot is referenced then the graphic has three features x & y coordinate and the color of the circle
-    # If a feature is a real life attribute than the graphic contains two (sepal and petal)
     
     show(fig1)    
 

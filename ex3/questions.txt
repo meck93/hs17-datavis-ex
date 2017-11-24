@@ -1,0 +1,26 @@
+# Question 1: What type of variables has the Iris dataset? Refer the type of each variable.
+# sepal_length: continuous variable (ordinal, numerical value)
+# sepal_width: continuous variable (ordinal, numerical value)
+# petal_length: continuous variable (ordinal, numerical value)
+# petal_width: continuous variable (ordinal, numerical value)
+# species: categorical variable (nominal, no intrinsic order)
+
+# Question 2: How many features are included in the Iris data set? 
+# Definition of a feature? 
+# If each attribute is a feature then the dataset contains four features
+# If the plot is referenced then the graphic has three features x & y coordinate and the color of the circle
+# If a feature is a real life attribute than the graphic contains two (sepal and petal)
+
+Question 3 - Compare the clustering results with the original data
+- The error rate is very low. Only a very small number of values are erronous. 
+
+Qustion 4 - What should be done to avoid overly dominat values or attributes? 
+- The values need to be normalized to a range between 0 and 1. 
+=> Standard distribution with mean = 0 and standard deviation = 1.  
+
+Question 5 - Which class presents the higher correlation? 
+The setosa flower type with a correlation of 0.747 between sepal length and width.
+
+Question 6 - 
+
+
