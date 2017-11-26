@@ -79,6 +79,7 @@ def computeDeviationGroup(datagroup):
     return stand_sepal_length, stand_sepal_width
 
 def computeStandardDeviation(datatype, mean):
+    """Comutes the standard deviation of the datatype values"""
     import math
 
     sum = 0
@@ -89,6 +90,7 @@ def computeStandardDeviation(datatype, mean):
     return math.sqrt(sum / len(datatype))
 
 def correlateLengthWidth(flower_data):
+    
     # Seperate each column 
     sepal_length = flower_data[:, 0]
     sepal_width = flower_data[:, 1]
@@ -99,8 +101,7 @@ def correlateLengthWidth(flower_data):
     return computeCorrelation(sepal_length, mean_length, std_length, sepal_width, mean_width, std_width)
 
 def computeCorrelation(length, length_mean, length_std, width, width_mean, width_std):
-    import math
-
+    """Computes the correlation of the input data"""
     if not len(length) == len(width):
         print("Length of inputs don't match")
         return None
@@ -127,6 +128,7 @@ data = readCSV('iris.data')
 (setosa, versicolor, virginica) = splitDataIntoGroups(data)
 
 # headline of task 6
+print("\n############### TASK 6 ############### ")
 print("Sepal Length and Width - Correlation")
 
 # setosa correlation

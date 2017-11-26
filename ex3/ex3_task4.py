@@ -54,13 +54,13 @@ def splitDataIntoGroups(data):
     return setosa, versicolor, virginica
 
 def computeMax(datagroup):
-    # Seperate each column 
+    # Seperate each column (attribute)
     sepal_length = datagroup[:, 0]
     sepal_width = datagroup[:, 1]
     petal_length = datagroup[:, 2]
     petal_width = datagroup[:, 3]
 
-    # Compute the max values
+    # Compute the max value of each attribute
     max_sepal_length = max(sepal_length)
     max_sepal_width = max(sepal_width)
     max_petal_length = max(petal_length)
@@ -69,13 +69,13 @@ def computeMax(datagroup):
     return max_sepal_length, max_sepal_width, max_petal_length, max_petal_width
 
 def computeMin(datagroup):
-    # Seperate each column 
+    # Seperate each column (attribute)
     sepal_length = datagroup[:, 0]
     sepal_width = datagroup[:, 1]
     petal_length = datagroup[:, 2]
     petal_width = datagroup[:, 3]
 
-    # Compute the min values
+    # Compute the min values of each attribute
     min_sepal_length = min(sepal_length)
     min_sepal_width = min(sepal_width)
     min_petal_length = min(petal_length)
@@ -84,13 +84,13 @@ def computeMin(datagroup):
     return min_sepal_length, min_sepal_width, min_petal_length, min_petal_width 
 
 def computeMean(datagroup):
-    # Seperate each column 
+    # Seperate each column (attribute)
     sepal_length = datagroup[:, 0]
     sepal_width = datagroup[:, 1]
     petal_length = datagroup[:, 2]
     petal_width = datagroup[:, 3]
 
-    # Compute the mean
+    # Compute the mean of each attribute
     mean_sepal_length = sum(sepal_length) / len(sepal_length)
     mean_sepal_width = sum(sepal_width) / len(sepal_width)
     mean_petal_length = sum(petal_length) / len(petal_length)
@@ -99,7 +99,7 @@ def computeMean(datagroup):
     return mean_sepal_length, mean_sepal_width, mean_petal_length, mean_petal_width
 
 def computeDeviationGroup(datagroup):
-    # Seperate each column 
+    # Seperate each column (attribute)
     sepal_length = datagroup[:, 0]
     sepal_width = datagroup[:, 1]
     petal_length = datagroup[:, 2]
@@ -117,6 +117,8 @@ def computeDeviationGroup(datagroup):
     return stand_sepal_length, stand_sepal_width, stand_petal_length, stand_petal_width
 
 def computeStandardDeviation(datatype, mean):
+    """Computes the standard deviation of the inputed data values
+    """
     import math
 
     sum = 0
@@ -175,7 +177,8 @@ total = total[:, :-1]
 total = np.array(total, dtype=float)
 
 # Print Results
-print("The Min, Max, Mean and Standard Deviation per Flower Type and in Total over all data sets:")
+print("\n############### TASK 4 ############### ")
+print("The Min, Max, Mean and Standard Deviation per Flower Type and in Total:")
 printSpecies(setosa, "Setosa")
 printSpecies(versicolor, "Versicolor")
 printSpecies(virginica, "Virginica")

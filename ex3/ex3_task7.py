@@ -116,7 +116,8 @@ versicolor_means = computeMeanAttributes(versicolor)
 virginica_means = computeMeanAttributes(virginica)
 
 # Task 7 - Headline
-print("Below the dissimilarities and similarities between the different flower types can be seen:\n")
+print("\n############### TASK 7 ############### ")
+print("The dissimilarities and similarities of the different flower types: \n")
 
 # Compute the dissimilarity and similarity between setosa and versicolor
 dis_setosa_versicolor = dissimilarity(setosa_means, versicolor_means)
