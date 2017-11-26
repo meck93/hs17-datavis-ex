@@ -21,9 +21,10 @@ Question 1: What type of variables has the Iris dataset? Refer the type of each 
 * petal_width: continuous variable (ordinal, numerical value)
 * species: categorical variable (nominal, no intrinsic order)
 
-Question 2: How many features are included in the Iris data set? Definition of a feature? 
-* If each attribute is a feature then the dataset contains four features
-* If the plot is referenced then the graphic has three features x & y coordinate and the color of the circle
+Question 2: How many features are included in the Iris data set? 
+* Definition of a feature? 
+* If each attribute is a feature then the dataset contains four features (for each attribute one feature)
+* If the plot is referenced then the graphic contains three features x-coordinate, y-coordinate and the color of the circle
 
 Question 3 - Compare the clustering results with the original data?
 * The error rate is very low. Only a very small number of values are erronous. 

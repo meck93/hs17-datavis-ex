@@ -144,7 +144,7 @@ def printSpecies(flower, name):
     flower_spec = ["Sepal Length: ", "Sepal Width: ", "Petal Length: ", "Petal Width: "]
     stats_names = ["Min: ", "Max: ", "Mean: ", "Standard deviation: "]
 
-    print("\nSpecies Type: " + name)
+    print("\n#####\tSpecies Type: " + name + "\t#####")
 
     for j in range(0, len(stats_values)):
         print("")
