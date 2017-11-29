@@ -6,6 +6,8 @@ Moritz Eck - 14-715-296
 """
 
 import ex4_reader as data_reader
+import matplotlib
+import matplotlib.cm as cm
 import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
 import numpy as np
@@ -24,7 +26,7 @@ plt1 = plt.subplot(grid[0, 0:3])
 plt2 = plt.subplot(grid[1, 0:4])
 
 # create the axis and layout
-plt1.set_title("color filled terrain visualization")
+plt1.set_title("Wind Speed @ Hour 1 and Altitude = 1km")
 plt1.set_xlabel("longitude (X-coord)")
 plt1.set_ylabel("latitude (Y-coord)")
 plt1.set_aspect(1)
@@ -42,21 +44,6 @@ terrain_plot = plt1.contourf(terrain_data, alpha=1.0, cmap='terrain')
 plot_colorbar = plt.colorbar(terrain_plot, ax=plt1, orientation='vertical')
 plot_colorbar.set_label("elevation in meters above sea level")
 
-# coordinates where to start plot the quives - coord: (y, x)
-coords = []
-
-# creating the midpoint of each cell (10x10)
-# starting @ (25, 25) in the first cell 
-for i in range(0, 500, 50):
-    coord_row = []
-
-    for j in range(0, 500, 50):
-        # coord (y, x)
-        coord = ((j+25), (i+25)) 
-        coord_row.append(coord)
-    
-    coords.append(coord_row)
-
 # z-index for altitude @ 1km
 HEIGHT = 5
 
@@ -72,8 +59,14 @@ y_wind = y_wind[:, :, HEIGHT]
 x_comp = np.ndarray((10, 10), dtype=float)
 y_comp = np.ndarray((10, 10), dtype=float)
 
+# coordinates for the 10x10 cells
+x_coord = np.ndarray((10, 10), dtype=float)
+y_coord = np.ndarray((10, 10), dtype=float)
+
 x = 0
 y = 0
+
+vec = list()
 
 # creating the means of the cells with size (50,50)
 for i in range(0, 500, 50):
@@ -94,27 +87,33 @@ for i in range(0, 500, 50):
         # compute the means of the x and y components for the (50, 50) cell 
         x_comp[y][x] = data_reader.computeMean(x_val)
         y_comp[y][x] = data_reader.computeMean(y_val)
+        vec.append(((x_comp[y][x]**2) + (y_comp[y][x]**2))**0.5)
+
+        # create the coordinates for this vector
+        x_coord[y][x] = j+25
+        y_coord[y][x] = i+25
         
         x += 1
     y += 1
 
-# plotting the quivers (vectors) 
-for i in range(0, 10):
-    for j in range(0, 10):
-        plt1.quiver(coords[i][j][0], 
-                    coords[i][j][1], 
-                    x_comp[i][j], 
-                    y_comp[i][j], 
-                    pivot='middle', units='height', scale=200)
-        #print("Row:", i, "\tX-Coord:", coordinates[i][j][0],"\tY-Coord:", coordinates[i][j][1], "\tX:", x_comp[i][j], "\tY:", y_comp[i][j])
+# normalize the magintude of the quivers to [0, 1]
+norm = matplotlib.colors.Normalize(vmin=min(vec), vmax=max(vec))
+
+# choose a colormap
+cm = matplotlib.cm.gist_heat_r
+
+# create a ScalarMappable and initialize an empty array
+sm = matplotlib.cm.ScalarMappable(cmap=cm, norm=norm)
+sm.set_array([ ])
+
+# plotting the wind vectors (quivers)
+quiv = plt1.quiver(x_coord, y_coord, x_comp, y_comp, pivot='middle', units='height', scale=200, color=cm(norm(vec)))
 
 # colorbar for the wind
-# wind_colorbar = plt.colorbar(quivers, ax=plt1, orientation='vertical')
-# wind_colorbar.set_label("wind speed in [m/s]")
+wind_colorbar = plt.colorbar(sm, ax=plt1, orientation='vertical')
+wind_colorbar.set_label("wind speed in [m/s]")
 
-plt.show()
-
-''' # TODO: Implement four scatterplots of four different locations
+# TODO: Implement four scatterplots of four different locations
 # e.g. locations: (50, 50), (150, 150), (250, 250), (350, 350), (450, 450)
 
 # read raw data
@@ -144,4 +143,6 @@ labels = ['Temperature', 'Pressure', 'Precipitation']
 
 # plotting the scatter plot matrix
 df = pd.DataFrame(data, columns=labels)
-scatter_matrix(df, alpha=1, figsize=(6, 6), diagonal='kde') '''
+scatter_matrix(df, alpha=1, figsize=(6, 6), diagonal='kde')
+
+plt.show()
