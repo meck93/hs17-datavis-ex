@@ -21,7 +21,7 @@ fig.canvas.set_window_title("DataVis HS17 Ex04 - Task 5")
 
 # create the subplots
 plt1 = plt.subplot(grid[0, 0:3])
-plt2 = plt.subplot(grid[1, 0:3])
+plt2 = plt.subplot(grid[1, 0:4])
 
 # create the axis and layout
 plt1.set_title("color filled terrain visualization")
@@ -42,77 +42,79 @@ terrain_plot = plt1.contourf(terrain_data, alpha=1.0, cmap='terrain')
 plot_colorbar = plt.colorbar(terrain_plot, ax=plt1, orientation='vertical')
 plot_colorbar.set_label("elevation in meters above sea level")
 
-# TODO: Implement 10x10 grid with cells with containing the wind vectors
-# use the arrows
+# coordinates where to start plot the quives - coord: (y, x)
+coords = []
+
+# creating the midpoint of each cell (10x10)
+# starting @ (25, 25) in the first cell 
+for i in range(0, 500, 50):
+    coord_row = []
+
+    for j in range(0, 500, 50):
+        # coord (y, x)
+        coord = ((j+25), (i+25)) 
+        coord_row.append(coord)
+    
+    coords.append(coord_row)
 
 # z-index for altitude @ 1km
 HEIGHT = 5
 
-# x, y and z-value of the raw wind data
+# x component of the wind (west-east)
 x_wind = data_reader.read_geo_data('U', 1)
+x_wind = x_wind[:, :, HEIGHT]
+
+# y component of the wind (south-north)
 y_wind = data_reader.read_geo_data('V', 1)
-z_wind = data_reader.read_geo_data('W', 1)
+y_wind = y_wind[:, :, HEIGHT]
 
 # empty component arrays for the x, y, z-value @ 1km
-x_component = np.ndarray((10, 10), dtype=float)
-y_component = np.ndarray((10, 10), dtype=float)
-z_component = np.ndarray((10, 10), dtype=float)
+x_comp = np.ndarray((10, 10), dtype=float)
+y_comp = np.ndarray((10, 10), dtype=float)
 
 x = 0
 y = 0
 
-min_x = 99999999999999999999
-max_x = -99999999999999999999
-min_y = 99999999999999999999
-max_y = -99999999999999999999
-
-# coordinates where to start locationwise with the arrows
-coordinates = []
-
-# filling the x, y, z components of the wind @ altitude 1km
+# creating the means of the cells with size (50,50)
 for i in range(0, 500, 50):
-    y = 0
-    entry = []
+    x = 0
+
     for j in range(0, 500, 50):
-        x_component[x][y] = x_wind[i][j][HEIGHT]
-        y_component[x][y] = y_wind[i][j][HEIGHT]
-
-        # find the max and min values of x & y components
-        if min_x > x_component[x][y]:
-            min_x = x_component[x][y]
+        x_val = []
+        y_val = []
         
-        if max_x < x_component[x][y]:
-            max_x = x_component[x][y]
+        for u in range(0, 50):
+            for v in range(0, 50):
+                # only add the value if it is within the allowed range
+                if not x_wind[i+u][j+v] > 100:
+                    x_val.append(x_wind[i+u][j+v])
+                if not y_wind[i+u][j+v] > 100:
+                    y_val.append(y_wind[i+u][j+v])
         
-        if min_y > y_component[x][y]:
-            min_y = y_component[x][y]
+        # compute the means of the x and y components for the (50, 50) cell 
+        x_comp[y][x] = data_reader.computeMean(x_val)
+        y_comp[y][x] = data_reader.computeMean(y_val)
         
-        if max_y < y_component[x][y]:
-            max_y = y_component[x][y]
+        x += 1
+    y += 1
 
-        entry.append(((i+25)/500, (j+25)/500))
-        y += 1
-
-    coordinates.append(entry)    
-    x += 1
-
-norm_x = np.ndarray((10, 10), dtype=float)
-norm_y = np.ndarray((10, 10), dtype=float)
-
-# normalizing the values to a range [0, 1]
+# plotting the quivers (vectors) 
 for i in range(0, 10):
     for j in range(0, 10):
-        norm_x[i][j] = (x_component[i][j] - min_x) / (max_x - min_x)
-        norm_y[i][j] = (y_component[i][j] - min_y) / (max_y - min_y)
+        plt1.quiver(coords[i][j][0], 
+                    coords[i][j][1], 
+                    x_comp[i][j], 
+                    y_comp[i][j], 
+                    pivot='middle', units='height', scale=200)
+        #print("Row:", i, "\tX-Coord:", coordinates[i][j][0],"\tY-Coord:", coordinates[i][j][1], "\tX:", x_comp[i][j], "\tY:", y_comp[i][j])
 
-# plotting arrows 
-for i in range(0, 10):
-    for j in range(0, 10):
-        plt2.arrow(coordinates[i][j][0], coordinates[i][j][1], norm_x[i][j], norm_y[i][j], head_width=0.025, head_length=0.05, fc='k', ec='k')
+# colorbar for the wind
+# wind_colorbar = plt.colorbar(quivers, ax=plt1, orientation='vertical')
+# wind_colorbar.set_label("wind speed in [m/s]")
 
-plt2.invert_yaxis()
+plt.show()
 
-# TODO: Implement four scatterplots of four different locations
+''' # TODO: Implement four scatterplots of four different locations
 # e.g. locations: (50, 50), (150, 150), (250, 250), (350, 350), (450, 450)
 
 # read raw data
@@ -142,6 +144,4 @@ labels = ['Temperature', 'Pressure', 'Precipitation']
 
 # plotting the scatter plot matrix
 df = pd.DataFrame(data, columns=labels)
-scatter_matrix(df, alpha=1, figsize=(6, 6), diagonal='kde')
-
-plt.show()
+scatter_matrix(df, alpha=1, figsize=(6, 6), diagonal='kde') '''

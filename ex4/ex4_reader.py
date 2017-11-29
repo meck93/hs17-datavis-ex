@@ -24,3 +24,6 @@ def read_geo_data(datatype, hour):
 
     filename = RESOURCES + datatype + 'f' + str_hour + '.bin'
     return np.memmap(filename, dtype=">f", mode="r", shape=(500, 500, 100), order='F')
+
+def computeMean(values):
+    return sum(values) / len(values)
