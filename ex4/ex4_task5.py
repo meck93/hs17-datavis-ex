@@ -9,24 +9,20 @@ import ex4_reader as data_reader
 import matplotlib
 import matplotlib.cm as cm
 import matplotlib.pyplot as plt
-import matplotlib.gridspec as gridspec
 import numpy as np
 import pandas as pd
+import seaborn as sns
 from pandas.plotting import scatter_matrix
-
-# create the grid
-grid = gridspec.GridSpec(3, 4)
 
 # create figure and title
 fig = plt.figure()
 fig.canvas.set_window_title("DataVis HS17 Ex04 - Task 5")
 
-# create the subplots
-plt1 = plt.subplot(grid[0, 0:3])
-plt2 = plt.subplot(grid[1, 0:4])
+# create plt1
+plt1 = fig.add_subplot(211)
 
 # create the axis and layout
-plt1.set_title("Wind Speed @ Hour 1 and Altitude = 1km")
+plt1.set_title("Wind Speed of Hurricane\n(Hour 1 & Altitude 1km)\n")
 plt1.set_xlabel("longitude (X-coord)")
 plt1.set_ylabel("latitude (Y-coord)")
 plt1.set_aspect(1)
@@ -142,7 +138,20 @@ for i in range(50, 500, 100):
 labels = ['Temperature', 'Pressure', 'Precipitation']
 
 # plotting the scatter plot matrix
+colors = ['red', 'green', 'black']
+
+# create the required dataframe
 df = pd.DataFrame(data, columns=labels)
-scatter_matrix(df, alpha=1, figsize=(6, 6), diagonal='kde')
+
+# Pandas: Scatter Matrix Plot
+scatter = scatter_matrix(df, alpha=1, figsize=(6, 6), diagonal='kde', c=colors)
+
+# Seaborn: Scatter Matrix Plot
+sns.set(style="ticks", color_codes=True)
+sns.pairplot(df, kind='scatter', diag_kind='kde')
+
+# Sub Title for Scatter Matrix
+plt.subplots_adjust(top=0.9)
+plt.suptitle('Scatter Matrix \nTemperature vs. Pressure vs. Precipitation \nHurricane @ Hour 1 and 1km Altitude')
 
 plt.show()
