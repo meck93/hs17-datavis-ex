@@ -15,11 +15,8 @@ import seaborn as sns
 from pandas.plotting import scatter_matrix
 
 # create figure and title
-fig = plt.figure()
+fig, plt1 = plt.subplots()
 fig.canvas.set_window_title("DataVis HS17 Ex04 - Task 5")
-
-# create plt1
-plt1 = fig.add_subplot(211)
 
 # create the axis and layout
 plt1.set_title("Wind Speed of Hurricane\n(Hour 1 & Altitude 1km)\n")
@@ -133,9 +130,10 @@ for i in range(50, 500, 100):
     entry.append(temp[i][i])
     entry.append(pressure[i][i])
     entry.append(rain[i][i])
+    entry.append("Location: " + str((i, i)))
     data.append(entry)
 
-labels = ['Temperature', 'Pressure', 'Precipitation']
+labels = ['Temperature', 'Pressure', 'Precipitation', 'Location']
 
 # plotting the scatter plot matrix
 colors = ['red', 'green', 'black']
@@ -144,7 +142,7 @@ colors = ['red', 'green', 'black']
 df = pd.DataFrame(data, columns=labels)
 
 # Pandas: Scatter Matrix Plot
-scatter = scatter_matrix(df, alpha=1, figsize=(6, 6), diagonal='kde', c=colors)
+# scatter = scatter_matrix(df, alpha=1, figsize=(6, 6), diagonal='kde', c=colors)
 
 # Seaborn: Scatter Matrix Plot
 sns.set(style="ticks", color_codes=True)
