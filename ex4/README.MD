@@ -14,6 +14,8 @@
   * Uf01.bin
   * Vf01.bin
   * Wf01.bin 
+* Download the required data sets from here: http://www.vets.ucar.edu/vg/isabeldata/
+* README instructions to the dataset can be found here: http://www.vets.ucar.edu/vg/isabeldata/readme.html
 
 ## How to run this project?
 * Run all files in the commandline using the command:  __python ex4_main.py__
@@ -21,6 +23,12 @@
 * Change the __number__ by an value: 1, 2, 3, 4, 5
 
 For all tasks a seperate window with the visualization will open. 
+
+### Notes on Task 3
+
+I wasn't sure what was meant with stacked. That's why I have created two possible versions of the plot. 
+We have implemented a stacked version of a plot in an earlier exercise (birth data of Zurich) but 
+it didn't make much sense to me stacking the tempeature plots over each other here. 
 
 ### Notes on Task 5
 

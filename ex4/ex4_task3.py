@@ -39,28 +39,46 @@ for i in range(1, 5):
 # x-values: list containing the heights of the plot
 heights = np.arange(MIN_HEIGHT, MAX_HEIGHT + STEP_SIZE, STEP_SIZE)
 
-# create the plot
-temp_fig, temp_plot = plt.subplots()
+# create the plot and the two axis
+figure, (axis1, axis2) = plt.subplots(nrows=2, ncols=1)
 
 # set title of the window
-temp_fig.canvas.set_window_title("DataVis HS17 Ex04 - Task 3")
-
-# setup the axis and layout
-temp_plot.set_title("Temperatures at different altitude levels.\n" + "At Position: (" + str(X_POS) + ", " + str(Y_POS) + ")")
-temp_plot.set_xlabel("Altitude Level [km]")
-temp_plot.set_ylabel("Temperature [C°]")
-temp_plot.minorticks_on()
+figure.canvas.set_window_title("DataVis HS17 Ex04 - Task 3")
 
 # plot the data
-temp_plot.plot(heights, stacked_data[0], label='Hour 1')
-temp_plot.plot(heights, stacked_data[1], label='Hour 2')
-temp_plot.plot(heights, stacked_data[2], label='Hour 3')
-temp_plot.plot(heights, stacked_data[3], label='Hour 4')
-temp_plot.plot(heights, stacked_data[4], label='Hour 5')
-temp_plot.legend()
+axis1.plot(heights, stacked_data[0], label='Hour 1')
+axis1.plot(heights, stacked_data[1], label='Hour 2')
+axis1.plot(heights, stacked_data[2], label='Hour 3')
+axis1.plot(heights, stacked_data[3], label='Hour 4')
+axis1.plot(heights, stacked_data[4], label='Hour 5')
 
-# temp_plot2 = plt.subplot()
-# temp_plot2.stackplot(heights, temperatures, baseline='zero')
+# different stacked verison (filled with color)
+# axis1.stackplot(heights, temperatures, baseline='zero')
+
+# setup and layout axis1
+axis1.set_title("Stacked Version 1: Temperatures at different altitude levels.\n" + "At Position: (" + str(X_POS) + ", " + str(Y_POS) + ")")
+axis1.set_xlabel("Altitude Level [km]")
+axis1.set_ylabel("Temperature [C°]")
+axis1.minorticks_on()
+axis1.legend()
+
+##########################################
+# subplot 2: different version of stacking
+##########################################
+
+# plot overlaying / stacked plots
+axis2.plot(heights, temperatures[0], label='Hour 1')
+axis2.plot(heights, temperatures[1], label='Hour 2')
+axis2.plot(heights, temperatures[2], label='Hour 3')
+axis2.plot(heights, temperatures[3], label='Hour 4')
+axis2.plot(heights, temperatures[4], label='Hour 5')
+
+# layout axis2
+axis2.set_title("Stacked Version2: Temperatures at different altitude levels.\n" + "At Position: (" + str(X_POS) + ", " + str(Y_POS) + ")")
+axis2.set_xlabel("Altitude Level [km]")
+axis2.set_ylabel("Temperature [C°]")
+axis2.minorticks_on()
+axis2.legend()
 
 # show the plot
 plt.show()

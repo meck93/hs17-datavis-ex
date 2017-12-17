@@ -133,7 +133,7 @@ for i in range(50, 500, 100):
     entry.append("Location: " + str((i, i)))
     data.append(entry)
 
-labels = ['Temperature', 'Pressure', 'Precipitation', 'Location']
+labels = ['Temperature [°C]', 'Pressure [Pascals] ', 'Precipitation [kg / kg]', 'Location']
 
 # plotting the scatter plot matrix
 colors = ['red', 'green', 'black']
